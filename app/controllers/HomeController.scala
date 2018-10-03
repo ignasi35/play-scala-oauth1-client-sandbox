@@ -49,10 +49,10 @@ class HomeController @Inject()(ws: WSClient, cc: ControllerComponents) extends A
       // extract the OAuth signature and parameters from the "Authorization" header and rewrite the queryString.
       executor {
         request.header(HeaderNames.AUTHORIZATION).map { authHeader =>
-          print("Using filtered request")
+          print("[CLIENT Filter] Using filtered request")
           request.withQueryStringParameters("newParam" -> "newValue")
         }.getOrElse{
-          println("No Authorization header found.")
+          println("[CLIENT Filter] No Authorization header found.")
           request
         }
       }
@@ -61,10 +61,9 @@ class HomeController @Inject()(ws: WSClient, cc: ControllerComponents) extends A
 
   def echo() = Action { implicit request =>
 
-    println("------------------------------------------------------------------------------------------------------------------------------------------------")
-    println(request)
-    println(request.queryString)
-    println(request.headers(HeaderNames.AUTHORIZATION))
+    println("[SERVER] request: "+ request)
+    println("[SERVER] queryString: "+ request.queryString)
+    println("[SERVER] Authorization: "+ request.headers(HeaderNames.AUTHORIZATION))
     // HEADERS:
     //    List(
     //      (Remote-Address,127.0.0.1:56949),
